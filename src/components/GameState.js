@@ -1,8 +1,8 @@
-import React from "react";
+
 
 const GameState = {
   playerXWins: 0,
-  playerOWind: 1,
+  playerOWins: 1,
   draw: 2,
   inProgress: 3,
 };

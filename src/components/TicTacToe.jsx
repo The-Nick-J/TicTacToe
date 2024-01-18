@@ -24,27 +24,37 @@ const winningCombos = [
 
 function checkWinner(tiles, setGameState) {
   for(const combo of winningCombos){
-    const tileValue1 = tiles[combo[0]]
-    const tileValue2 = tiles[combo[1]]
-    const tileValue3 = tiles[combo[2]]
+    const tileValue1 = tiles[combo.combo[0]]
+    const tileValue2 = tiles[combo.combo[1]]
+    const tileValue3 = tiles[combo.combo[2]]
 
-    if(tileValue1 !== null && tileValue1 === tileValue2 && tileValue1 === tileValue3) {
+    if(
+      tileValue1 !== null &&
+      tileValue1 === tileValue2 &&
+      tileValue1 === tileValue3
+      ) {
       if(tileValue1 === PLAYER_X) {
         setGameState(GameState.playerXWins);
-      } else {
+      } else if (tileValue1 === PLAYER_O){
         setGameState(GameState.playerOWins);
       }
+      return;
     }
+  }
+  const areAllTilesFilledIn = tiles.every((tile) => tile !== null);
+  if(areAllTilesFilledIn) {
+    setGameState(GameState.draw);
   }
 }
 
 function TicTacToe() {
   const [tiles, setTiles] = useState(Array(9).fill(null));
   const [playerTurn, setPlayerTurn] = useState(PLAYER_X);
-  const [gameState, setGameState] = useState(GameState.inProgress)
+  const [gameState, setGameState] = useState(GameState.inProgress);
 
 
 const handleTileClick = (index) => {
+  if(gameState !== GameState.inProgress) return;
   if(tiles[index] !== null) return;
 
   const newTiles = [...tiles];
@@ -58,7 +68,7 @@ const handleTileClick = (index) => {
 };
 
 useEffect(() => {
-  checkWinner(tiles);
+  checkWinner(tiles, setGameState);
 }, [tiles, setGameState]);
 
 
@@ -67,7 +77,7 @@ useEffect(() => {
     <div>
       <h1>Tic Tac Toe</h1>
       <Board playerTurn={playerTurn} tiles={tiles} onTileClick={handleTileClick}/>
-      <GameOver gameState={gameState}/>
+      <GameOver gameState={gameState} />
     </div>
   )
 }

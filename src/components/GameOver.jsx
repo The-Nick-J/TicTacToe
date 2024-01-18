@@ -6,13 +6,12 @@ function  GameOver({ gameState }) {
     case GameState.inProgress:
       return <></>;
     case GameState.playerOWins:
-      return<div className='game-over'>O Wins</div>
-      case GameState.playerXWins:
-      return<div className='game-over'>X Wins</div>
-      case GameState.draw:
-      return<div className='game-over'>Draw</div>
-    default:
-        return <></>
+      return <div className="game-over">Player O wins!</div>;
+    case GameState.playerXWins:
+      return <div className="game-over">Player X wins!</div>;
+    case GameState.draw:
+      return <div className="game-over">Draw!</div>;
+    default: <></>;
   }
 }
 
