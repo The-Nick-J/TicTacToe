@@ -1,9 +1,9 @@
 import React from "react";
 import Tile from "./Tile";
-import Strike from "./Strike";
-
+// declaramos una funcion para el tablero la cual destructura las casillas y el turno del jugador
 function Board({ tiles, onTileClick, playerTurn }) {
   return (
+    // retornamos las casillas con sus respectivos valores y clases
     <div className="board">
       <Tile playerTurn={playerTurn} onClick={() => onTileClick(0)} value={tiles[0]} className='right-border bottom-border'/>
       <Tile playerTurn={playerTurn} onClick={() => onTileClick(1)} value={tiles[1]} className='right-border bottom-border'/>
@@ -14,7 +14,7 @@ function Board({ tiles, onTileClick, playerTurn }) {
       <Tile playerTurn={playerTurn} onClick={() => onTileClick(6)} value={tiles[6]} className='right-border'/>
       <Tile playerTurn={playerTurn} onClick={() => onTileClick(7)} value={tiles[7]} className='right-border'/>
       <Tile playerTurn={playerTurn} onClick={() => onTileClick(8)} value={tiles[8]} className=''/>
-      <Strike />
+
     </div>
   );
 }
