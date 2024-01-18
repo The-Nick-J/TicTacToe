@@ -5,10 +5,9 @@ import Tablero from './Tablero';
 
 const App = () => {
     return (
-        <div>
+        <>
         <h1>Tic Tac Toe</h1>
-        <Tablero />
-        </div>
+        </>
     )
 }
 
