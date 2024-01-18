@@ -2,6 +2,7 @@ import React, {useState,useEffect} from 'react';
 import Board from './Board';
 import GameOver from './GameOver';
 import GameState from './GameState';
+import Reset from './Reset';
 
 //declaramos variables para ambos jugadores
 const PLAYER_X = "X";
@@ -78,6 +79,12 @@ const handleTileClick = (index) => {
   }
 };
 
+const handleReset = () => {
+  setGameState(GameState.inProgress);
+  setTiles(Array(9).fill(null));
+  setPlayerTurn(PLAYER_X);
+}
+
 // declaramos un efecto para verificar si hay un ganador
 useEffect(() => {
   checkWinner(tiles, setGameState);
@@ -91,6 +98,7 @@ useEffect(() => {
       <h1>Tic Tac Toe</h1>
       <Board playerTurn={playerTurn} tiles={tiles} onTileClick={handleTileClick}/>
       <GameOver gameState={gameState} />
+      <Reset gameState={gameState} onReset={handleReset} />
     </div>
   )
 }
