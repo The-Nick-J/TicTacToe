@@ -3,6 +3,7 @@ import Board from './Board';
 import GameOver from './GameOver';
 import GameState from './GameState';
 import Reset from './Reset';
+import Score from './Score';
 
 //declaramos variables para ambos jugadores
 const PLAYER_X = "X";
@@ -85,6 +86,18 @@ const handleReset = () => {
   setPlayerTurn(PLAYER_X);
 }
 
+
+const [xScore, setXScore] = useState(0);
+const [oScore, setOScore] = useState(0);
+
+useEffect(() => {
+  if(gameState === GameState.playerXWins) {
+    setXScore(xScore => xScore + 1);
+  } else if (gameState === GameState.playerOWins) {
+    setOScore(oScore => oScore + 1);
+  }
+}, [gameState]);
+
 // declaramos un efecto para verificar si hay un ganador
 useEffect(() => {
   checkWinner(tiles, setGameState);
@@ -96,9 +109,11 @@ useEffect(() => {
     // retornamos el tablero, el estado del juego y el ganador
     <div>
       <h1>Tic Tac Toe</h1>
+      <Score xScore={xScore} oScore={oScore} />
       <Board playerTurn={playerTurn} tiles={tiles} onTileClick={handleTileClick}/>
       <GameOver gameState={gameState} />
       <Reset gameState={gameState} onReset={handleReset} />
+
     </div>
   )
 }
