@@ -58,9 +58,14 @@ function TicTacToe() {
   //llenamos las casillas con un array de 9 casillas vacias
   const [tiles, setTiles] = useState(Array(9).fill(null));
   // declaramos el turno del jugador
-  const [playerTurn, setPlayerTurn] = useState(PLAYER_X);
+  const [playerTurn, setPlayerTurn] = useState(null);
   // declaramos el estado del juego
   const [gameState, setGameState] = useState(GameState.inProgress);
+  //NUEVA ELECCION DE SIMBOLO
+  const [symbol, setSymbol] = useState(null);
+  //NUEVA ELECCION DE NOMBRES
+  const [xName, setXName] = useState("");
+  const [oName, setOName] = useState("");
 
 // declaramos una funcion para el click de las casillas
 const handleTileClick = (index) => {
@@ -83,12 +88,33 @@ const handleTileClick = (index) => {
 const handleReset = () => {
   setGameState(GameState.inProgress);
   setTiles(Array(9).fill(null));
-  setPlayerTurn(PLAYER_X);
+  if(playerTurn === PLAYER_O) {
+    setPlayerTurn(PLAYER_X);
+  } else if (playerTurn === PLAYER_X) {
+    setPlayerTurn(PLAYER_O);
+  }
+
 }
 
+const handleSymbol = (symbol) => {
+  if (xName === '' || oName === '') {
+    alert('Please enter both player names before starting the game.');
+    return;
+  }
+  setSymbol(symbol);
+  setPlayerTurn(symbol);
+}
 
 const [xScore, setXScore] = useState(0);
 const [oScore, setOScore] = useState(0);
+
+const handleXName = (event) => {
+  setXName(event.target.value);
+}
+
+const handleOName = (event) => {
+  setOName(event.target.value);
+}
 
 useEffect(() => {
   if(gameState === GameState.playerXWins) {
@@ -103,19 +129,34 @@ useEffect(() => {
   checkWinner(tiles, setGameState);
 }, [tiles, setGameState]);
 
-
+if(xName === '' || oName === '' || symbol === null) {
+  return (
+    <div>
+      <h1>Tic Tac Toe</h1>
+      <p>ENTER PLAYER NAMES AND SELECT STARTING SYMBOL!</p>
+      <input type="text" placeholder="Player X" onChange={handleXName} />
+      <input type="text" placeholder="Player O" onChange={handleOName} />
+      <button onClick={() => { if (xName !== '' && oName !== '') { setSymbol(PLAYER_X); setPlayerTurn(PLAYER_X); } }}>X</button>
+      <button onClick={() => { if (xName !== '' && oName !== '') { setSymbol(PLAYER_O); setPlayerTurn(PLAYER_O); } }}>O</button>
+    </div>
+  )
+}
 
   return (
     // retornamos el tablero, el estado del juego y el ganador
     <div>
       <h1>Tic Tac Toe</h1>
-      <Score xScore={xScore} oScore={oScore} />
+      <Score xName={xName} oName={oName} xScore={xScore} oScore={oScore} />
       <Board playerTurn={playerTurn} tiles={tiles} onTileClick={handleTileClick}/>
       <GameOver gameState={gameState} />
       <Reset gameState={gameState} onReset={handleReset} />
 
     </div>
   )
-}
+  }
+
+
+
+
 
 export default TicTacToe;
